@@ -36,7 +36,7 @@ if ipadress != textIp:
 		server.ehlo()
 		server.starttls()
 		server.ehlo()
-		server.login("raspdhr@gmail.com", "sidRonan")
+		server.login("**********", "**********")
 		text = msg.as_string()
 		server.sendmail(fromaddr, toaddr, text)
 
