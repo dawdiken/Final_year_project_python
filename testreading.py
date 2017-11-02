@@ -4,8 +4,8 @@ import StringIO, rfc822
 import logging
  
 SERVER = "pop.gmail.com"
-USER  = "**********"
-PASSWORD = "**********"
+USER  = "******"
+PASSWORD = "*****"
  
 # connect to server
 logging.debug('connecting to ' + SERVER)
@@ -20,9 +20,12 @@ server.pass_(PASSWORD)
 # list items on server
 logging.debug('listing emails')
 resp, items, octets = server.list()
+# find lenght array. then minus 1 to adjust because array starts at 0.
+last = len(items) - 1
+print 
  
 # download the first message in the list
-id, size = string.split(items[3])
+id, size = string.split(items[last])
 resp, text, octets = server.retr(id)
  
 # convert list to Message object
