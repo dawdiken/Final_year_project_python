@@ -3,9 +3,9 @@ import string, random
 import StringIO, rfc822
 import logging
  
-SERVER = "**************"
+SERVER = "pop.gmail.com"
 USER  = "**********"
-PASSWORD = "sidRonan"
+PASSWORD = "**********"
  
 # connect to server
 logging.debug('connecting to ' + SERVER)
