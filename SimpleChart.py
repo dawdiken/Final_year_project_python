@@ -1,27 +1,23 @@
-from django.http import HttpResponse
-from matplotlib import pylab
-from pylab import *
-import PIL, PIL.Image, StringIO
+from reportlab.graphics.shapes import Drawing, String
+from reportlab.graphics.charts.barcharts import HorizontalBarChart
 
 
-def showimage(request):
-    # Construct the graph
-    t = arange(0.0, 2.0, 0.01)
-    s = sin(2 * pi * t)
-    plot(t, s, linewidth=1.0)
+class MyBarChartDrawing(Drawing):
+    def __init__(self, width=400, height=200, *args, **kw):
+        Drawing.__init__(self, width, height, *args, **kw)
+        self.add(HorizontalBarChart(), name='chart')
 
-    xlabel('time (s)')
-    ylabel('voltage (mV)')
-    title('About as simple as it gets, folks')
-    grid(True)
+        self.add(String(200, 180, 'TEST CHART'), name='title')
+        self.chart.x = 20
+        self.chart.y = 20
+        self.chart.width = self.width - 20
+        self.chart.height = self.height - 40
 
-    # Store image in a string buffer
-    buffer = StringIO.StringIO()
-    canvas = pylab.get_current_fig_manager().canvas
-    canvas.draw()
-    pilImage = PIL.Image.fromstring("RGB", canvas.get_width_height(), canvas.tostring_rgb())
-    pilImage.save(buffer, "PNG")
-    pylab.close()
+        self.title.fontName = 'Helvetica-Bold'
+        self.title.fontSize = 12
 
-    # Send buffer in a http response the the browser with the mime type image/png set
-    return HttpResponse(buffer.getvalue(), mimetype="image/png")
+        self.chart.data = [[100, 150, 200, 235, 400, 15]]
+
+
+if __name__ == '__main__':
+    MyBarChartDrawing().save(formats=['gif', 'png', 'jpg', 'pdf'], outDir='.', fnRoot='barchart')
